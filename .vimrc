@@ -91,3 +91,12 @@ let g:solarized_termcolors=256
 syntax enable
 set background=light
 colorscheme solarized
+
+" テンプレート
+autocmd BufNewFile *.py 0r $HOME/.vim/template/py.txt
+
+" jedi-vimにpython3だと教えてあげる
+" 基本的にpython3しか使わない
+" 教えてあげないと2系を見に行き、保管できなくなる
+let g:jedi#force_py_version = 3
+
