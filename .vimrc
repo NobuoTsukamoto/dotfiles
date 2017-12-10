@@ -7,8 +7,8 @@ set incsearch                " インクリメンタルサーチ
 set hlsearch                 " 検索マッチテキストをハイライト
 
 " '/'や'?'を状況に合わせて自動的にエスケープ
-cnoremap <expr> / (getcmdtype() == '/') '\/' : '/'
-cnoremap <expr> ? (getcmdtype() == '?') ? '\?' : '?'
+" cnoremap <expr> / (getcmdtype() == '/') '\/' : '/'
+" cnoremap <expr> ? (getcmdtype() == '?') ? '\?' : '?'
 
 
 "------------------------------------------------------------------------------
@@ -55,16 +55,16 @@ autocmd QuickFixCmdPost *grep* cwindow " grep時にquickfix-windowを開く
 " タブ幅の設定
 "------------------------------------------------------------------------------
 set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 
 "------------------------------------------------------------------------------
 " マクロ、キー設定
 "------------------------------------------------------------------------------
 " 挿入モード終了時に IME 状態を保存しない
-inoremap <silent> <Esc> <Esc>
-inoremap <silent> <C-[> <Esc>
+ "inoremap <silent> <Esc> <Esc>
+ "inoremap <silent> <C-[> <Esc>
 
 " ESCを2回押すとハイライト表示を消す
 nmap <silent> <Esc><Esc> :nohlsearch<CR>
@@ -112,6 +112,20 @@ autocmd BufNewFile *.py 0r $HOME/.vim/template/py.txt
 " 基本的にpython3しか使わない
 " 教えてあげないと2系を見に行き、保管できなくなる
 let g:jedi#force_py_version = 3
+
+" python_path に virtualenv の path も追加する
+let s:python_path = system('python3 -', 'import sys;sys.stdout.write(",".join(sys.path))')
+
+python3 <<EOM
+import sys
+import vim
+
+python_paths = vim.eval('s:python_path').split(',')
+for path in python_paths:
+    if not path in sys.path:
+        sys.path.insert(0, path)
+EOM
+
 
 " disable auto completion for vim-clanG
 let g:clang_auto = 0
