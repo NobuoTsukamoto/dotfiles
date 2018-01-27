@@ -91,6 +91,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'https://github.com/davidhalter/jedi-vim.git'
 
   Plug 'https://github.com/justmao945/vim-clang.git'
+
+  Plug 'https://github.com/aklt/plantuml-syntax.git'
+
+  "Plug 'https://github.com/scrooloose/vim-slumlord.git'
 call plug#end()
 
 " vim-colors-solarizedの設定
@@ -146,3 +150,4 @@ augroup vimrc-c
     autocmd FileType c call s:c()
 augroup END
 
+let g:plantuml_executable_script = '/home/nobuo/dotfiles/plantuml'
