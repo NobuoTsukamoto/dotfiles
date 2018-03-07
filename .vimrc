@@ -94,6 +94,10 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'https://github.com/aklt/plantuml-syntax.git'
 
+  Plug 'https://github.com/scrooloose/nerdtree.git'
+
+  Plug 'https://github.com/tyru/caw.vim.git'
+
   "Plug 'https://github.com/scrooloose/vim-slumlord.git'
 call plug#end()
 
@@ -132,22 +136,52 @@ EOM
 
 
 " disable auto completion for vim-clanG
-let g:clang_auto = 0
-let g:clang_complete_auto = 0
+let g:clang_auto = 1
+let g:clang_complete_auto = 1
 let g:clang_auto_select = 0
 let g:clang_use_library = 1
 
 let g:clang_c_options = '-std=c11'
 let g:clang_cpp_options = '-std=c++14 -stdlib=libc++'
 
-function! s:c()
-    setlocal path+=/usr/include,/usr/lib/gcc/x86_64-redhat-linux/6.1.1/include/
+function! s:cpp()
+  " includeのパスを追加する
+  setlocal path+=/usr/include,/usr/include/c++/7/,/usr/include/c++/7/x86_64-redhat-linux/
+  " setlocal path+=/usr/include,/usr/lib/gcc/x86_64-redhat-linux/7/include/,/usr/include/c++/7/,/usr/include/c++/7/x86_64-redhat-linux/
 
 endfunction
 
 augroup vimrc-c
     autocmd!
-    autocmd FileType c call s:c()
+    autocmd FileType cpp call s:cpp()
 augroup END
 
 let g:plantuml_executable_script = '/home/nobuo/dotfiles/plantuml'
+
+"------------------------------------------------------------------------------
+" NERDTreeの設定
+"------------------------------------------------------------------------------
+" autocmd vimenter * NERDTree     " 起動時にNERDTreeを表示する
+map <C-n> :NERDTreeToggle<CR>   " キーバインド
+
+" ファイル名が指定された場合は、非表示
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" 閉じたらNERDTreeも閉じる
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+
+"------------------------------------------------------------------------------
+" cawの設定
+"------------------------------------------------------------------------------
+" コメントアウトを切り替えるマッピング
+" \c でカーソル行をコメントアウト
+" 再度 \c でコメントアウトを解除
+" 選択してから複数行の \c も可能
+nmap \c <Plug>(caw:I:toggle)
+vmap \c <Plug>(caw:I:toggle)
+
+" \C でコメントアウトの解除
+nmap \C <Plug>(caw:I:uncomment)
+vmap \C <Plug>(caw:I:uncomment)
