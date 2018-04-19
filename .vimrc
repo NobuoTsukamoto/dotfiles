@@ -10,6 +10,13 @@ set hlsearch                 " 検索マッチテキストをハイライト
 " cnoremap <expr> / (getcmdtype() == '/') '\/' : '/'
 " cnoremap <expr> ? (getcmdtype() == '?') ? '\?' : '?'
 
+"------------------------------------------------------------------------------
+" タブ幅の設定
+"------------------------------------------------------------------------------
+set expandtab
+set softtabstop=2
+set shiftwidth=2
+set tabstop=2
 
 "------------------------------------------------------------------------------
 " 編集関連
@@ -51,13 +58,6 @@ set novisualbell
 "------------------------------------------------------------------------------
 autocmd QuickFixCmdPost *grep* cwindow " grep時にquickfix-windowを開く
 
-"------------------------------------------------------------------------------
-" タブ幅の設定
-"------------------------------------------------------------------------------
-set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
 
 "------------------------------------------------------------------------------
 " マクロ、キー設定
@@ -115,6 +115,8 @@ endif
 
 " テンプレート
 autocmd BufNewFile *.py 0r $HOME/.vim/template/py.txt
+autocmd BufNewFile *.h 0r $HOME/.vim/template/cpp_header.txt
+autocmd BufNewFile *.cpp 0r $HOME/.vim/template/cpp_source.txt
 
 " jedi-vimにpython3だと教えてあげる
 " 基本的にpython3しか使わない
@@ -135,19 +137,19 @@ for path in python_paths:
 EOM
 
 
-" disable auto completion for vim-clanG
-let g:clang_auto = 1
-let g:clang_complete_auto = 1
-let g:clang_auto_select = 0
-let g:clang_use_library = 1
-
-let g:clang_c_options = '-std=c11'
-let g:clang_cpp_options = '-std=c++14 -stdlib=libc++'
-
 function! s:cpp()
   " includeのパスを追加する
   setlocal path+=/usr/include,/usr/include/c++/7/,/usr/include/c++/7/x86_64-redhat-linux/
   " setlocal path+=/usr/include,/usr/lib/gcc/x86_64-redhat-linux/7/include/,/usr/include/c++/7/,/usr/include/c++/7/x86_64-redhat-linux/
+
+  " disable auto completion for vim-clanG
+  " let g:clang_auto = 1
+  let g:clang_complete_auto = 1
+  let g:clang_auto_select = 0
+  let g:clang_use_library = 1
+
+  let g:clang_c_options = '-std=c11'
+  let g:clang_cpp_options = '-std=c++14 -stdlib=libc++'
 
 endfunction
 
@@ -185,3 +187,4 @@ vmap \c <Plug>(caw:I:toggle)
 " \C でコメントアウトの解除
 nmap \C <Plug>(caw:I:uncomment)
 vmap \C <Plug>(caw:I:uncomment)
+
