@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 Nobuo Tsukamoto
+ * Copyright (c) 2019 Nobuo Tsukamoto
  *
  * This software is released under the MIT License.
  * See the LICENSE file in the project root for more information.
