@@ -139,7 +139,7 @@ EOM
 
 function! s:cpp()
   " includeのパスを追加する
-  setlocal path+=/usr/include,/usr/include/c++/8/,/usr/include/c++/8/x86_64-redhat-linux/
+  setlocal path+=/usr/include,/usr/local/include/opencv4,/usr/include/c++/9/,/usr/include/c++/9/x86_64-redhat-linux/
   " setlocal path+=/usr/include,/usr/lib/gcc/x86_64-redhat-linux/7/include/,/usr/include/c++/7/,/usr/include/c++/7/x86_64-redhat-linux/
 
   " disable auto completion for vim-clanG
