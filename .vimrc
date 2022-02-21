@@ -86,7 +86,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/vim-plug',
         \ {'dir': '~/.vim/plugged/vim-plug/autoload'}
 
-  Plug 'git://github.com/altercation/vim-colors-solarized.git'
+  Plug 'https://github.com/altercation/vim-colors-solarized.git'
 
   Plug 'https://github.com/davidhalter/jedi-vim.git'
 
@@ -105,7 +105,7 @@ call plug#end()
 let g:solarized_termcolors=256
 "let g:solarized_termtrans=1
 syntax enable
-set background=light
+set background=dark
 colorscheme solarized
 if &term =~ '256color'
     " Disable Background Color Erase (BCE) so that color schemes
@@ -139,8 +139,7 @@ EOM
 
 function! s:cpp()
   " includeのパスを追加する
-  setlocal path+=/usr/include,/usr/local/include/opencv4,/usr/include/c++/9/,/usr/include/c++/9/x86_64-redhat-linux/
-  " setlocal path+=/usr/include,/usr/lib/gcc/x86_64-redhat-linux/7/include/,/usr/include/c++/7/,/usr/include/c++/7/x86_64-redhat-linux/
+  setlocal path+=/usr/include,/usr/local/include/opencv4,/usr/include/c++/11/,/usr/include/c++/11/x86_64-redhat-linux/
 
   " disable auto completion for vim-clanG
   " let g:clang_auto = 1
