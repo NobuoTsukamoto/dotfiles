@@ -73,104 +73,57 @@ nmap <silent> <Esc><Esc> :nohlsearch<CR>
 "------------------------------------------------------------------------------
 " プラグイン管理
 "------------------------------------------------------------------------------
-if has('vim_starting')
-  set rtp+=~/.vim/plugged/vim-plug
-  if !isdirectory(expand('~/.vim/plugged/vim-plug'))
-    echo 'install vim-plug...'
-    call system('mkdir -p ~/.vim/plugged/vim-plug')
-    call system('git clone https://github.com/junegunn/vim-plug.git ~/.vim/plugged/vim-plug/autoload')
-  end
+if has('win32') || has('win64')
+  let s:plug_vim = expand('~/vimfiles/autoload/plug.vim')
+else
+  let s:plug_vim = expand('~/.vim/autoload/plug.vim')
 endif
 
-call plug#begin('~/.vim/plugged')
-  Plug 'junegunn/vim-plug',
-        \ {'dir': '~/.vim/plugged/vim-plug/autoload'}
+if empty(glob(s:plug_vim))
+  if executable('curl')
+    echo 'Installing vim-plug...'
+    call mkdir(fnamemodify(s:plug_vim, ':h'), 'p')
+    execute 'silent !curl -fLo ' . shellescape(s:plug_vim) . ' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  else
+    echohl WarningMsg
+    echomsg 'vim-plug is not installed and curl is not available.'
+    echohl None
+  endif
+endif
 
-  Plug 'https://github.com/altercation/vim-colors-solarized.git'
+if filereadable(s:plug_vim)
+  call plug#begin()
+    Plug 'altercation/vim-colors-solarized'
 
-  Plug 'https://github.com/davidhalter/jedi-vim.git'
+    Plug 'preservim/nerdtree', { 'on': ['NERDTree', 'NERDTreeToggle'] }
 
-  Plug 'https://github.com/justmao945/vim-clang.git'
+    Plug 'tyru/caw.vim'
 
-  Plug 'https://github.com/aklt/plantuml-syntax.git'
-
-  Plug 'https://github.com/scrooloose/nerdtree.git'
-
-  Plug 'https://github.com/tyru/caw.vim.git'
-
-  "Plug 'https://github.com/scrooloose/vim-slumlord.git'
-call plug#end()
+    "Plug 'scrooloose/vim-slumlord'
+  call plug#end()
+endif
 
 " vim-colors-solarizedの設定
 let g:solarized_termcolors=256
 "let g:solarized_termtrans=1
 syntax enable
 set background=dark
-colorscheme solarized
+silent! colorscheme solarized
 if &term =~ '256color'
     " Disable Background Color Erase (BCE) so that color schemes
     " work properly when Vim is used inside tmux and GNU screen.
     set t_ut=
 endif
 
-" テンプレート
-autocmd BufNewFile *.py 0r $HOME/.vim/template/py.txt
-autocmd BufNewFile *.h 0r $HOME/.vim/template/cpp_header.txt
-autocmd BufNewFile *.cpp 0r $HOME/.vim/template/cpp_source.txt
-
-" jedi-vimにpython3だと教えてあげる
-" 基本的にpython3しか使わない
-" 教えてあげないと2系を見に行き、保管できなくなる
-let g:jedi#force_py_version = 3
-
-" python_path に virtualenv の path も追加する
-let s:python_path = system('python3 -', 'import sys;sys.stdout.write(",".join(sys.path))')
-
-python3 <<EOM
-import sys
-import vim
-
-python_paths = vim.eval('s:python_path').split(',')
-for path in python_paths:
-    if not path in sys.path:
-        sys.path.insert(0, path)
-EOM
-
-
-function! s:cpp()
-  " includeのパスを追加する
-  setlocal path+=/usr/include,/usr/local/include/opencv4,/usr/include/c++/11/,/usr/include/c++/11/x86_64-redhat-linux/
-
-  " disable auto completion for vim-clanG
-  " let g:clang_auto = 1
-  let g:clang_complete_auto = 1
-  let g:clang_auto_select = 0
-  let g:clang_use_library = 1
-
-  let g:clang_c_options = '-std=c11'
-  let g:clang_cpp_options = '-std=c++14 -stdlib=libc++'
-
-endfunction
-
-augroup vimrc-c
-    autocmd!
-    autocmd FileType cpp call s:cpp()
-augroup END
-
-let g:plantuml_executable_script = '/home/nobuo/dotfiles/plantuml'
-
 "------------------------------------------------------------------------------
 " NERDTreeの設定
 "------------------------------------------------------------------------------
-" autocmd vimenter * NERDTree     " 起動時にNERDTreeを表示する
-map <C-n> :NERDTreeToggle<CR>   " キーバインド
+nnoremap <silent> <C-n> :NERDTreeToggle<CR>
 
-" ファイル名が指定された場合は、非表示
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-" 閉じたらNERDTreeも閉じる
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+if has('win32') || has('win64')
+  let NERDTreeIgnore = ['\c^ntuser\.dat']
+endif
 
 
 "------------------------------------------------------------------------------
