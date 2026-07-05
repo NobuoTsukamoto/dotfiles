@@ -84,8 +84,16 @@ New-Item -ItemType SymbolicLink -Path $HOME\_vimrc -Target C:\Users\nextr\Projec
 
 - `sainnhe/gruvbox-material`
 - `preservim/nerdtree`
+- `github/copilot.vim`
 
 NERDTree は起動時には開かず、必要な時だけ `<C-n>` で開きます。
+
+GitHub Copilot を使うには、GitHub Copilot の利用権と Node.js が必要です。初回セットアップは Vim 上で実行します。
+
+```vim
+:PlugInstall
+:Copilot setup
+```
 
 Windows Terminal 上の `vim.exe` でカラーテーマが反映されない場合は、Vim 上で次を確認します。
 

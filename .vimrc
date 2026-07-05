@@ -98,6 +98,8 @@ if filereadable(s:plug_vim)
 
     Plug 'preservim/nerdtree', { 'on': ['NERDTree', 'NERDTreeToggle'] }
 
+    Plug 'github/copilot.vim'
+
     "Plug 'scrooloose/vim-slumlord'
   call plug#end()
 endif
