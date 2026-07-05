@@ -82,10 +82,20 @@ New-Item -ItemType SymbolicLink -Path $HOME\_vimrc -Target C:\Users\nextr\Projec
 
 現在のプラグインは最小限です。
 
-- `altercation/vim-colors-solarized`
+- `sainnhe/gruvbox-material`
 - `preservim/nerdtree`
 
 NERDTree は起動時には開かず、必要な時だけ `<C-n>` で開きます。
+
+Windows Terminal 上の `vim.exe` でカラーテーマが反映されない場合は、Vim 上で次を確認します。
+
+```vim
+:PlugInstall
+:set termguicolors?
+:colorscheme
+```
+
+`gruvbox-material` が未インストールの場合は、起動時に `Run :PlugInstall.` と警告が出ます。Windows Terminal は truecolor 対応なので、Vim が `+termguicolors` 付きなら `.vimrc` 側で `termguicolors` を有効にします。
 
 ## Fedora Vim
 

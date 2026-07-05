@@ -94,7 +94,7 @@ endif
 
 if filereadable(s:plug_vim)
   call plug#begin()
-    Plug 'altercation/vim-colors-solarized'
+    Plug 'sainnhe/gruvbox-material'
 
     Plug 'preservim/nerdtree', { 'on': ['NERDTree', 'NERDTreeToggle'] }
 
@@ -102,12 +102,20 @@ if filereadable(s:plug_vim)
   call plug#end()
 endif
 
-" vim-colors-solarizedの設定
-let g:solarized_termcolors=256
-"let g:solarized_termtrans=1
+" gruvbox-materialの設定
 syntax enable
-set background=dark
-silent! colorscheme solarized
+if has('termguicolors')
+  set termguicolors
+endif
+set background=light
+let g:gruvbox_material_background = 'medium'
+try
+  colorscheme gruvbox-material
+catch /^Vim\%((\a\+)\)\=:E185/
+  echohl WarningMsg
+  echomsg 'gruvbox-material is not installed. Run :PlugInstall.'
+  echohl None
+endtry
 if &term =~ '256color'
     " Disable Background Color Erase (BCE) so that color schemes
     " work properly when Vim is used inside tmux and GNU screen.
