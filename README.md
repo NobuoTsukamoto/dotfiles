@@ -84,7 +84,6 @@ New-Item -ItemType SymbolicLink -Path $HOME\_vimrc -Target C:\Users\nextr\Projec
 
 - `altercation/vim-colors-solarized`
 - `preservim/nerdtree`
-- `tyru/caw.vim`
 
 NERDTree は起動時には開かず、必要な時だけ `<C-n>` で開きます。
 

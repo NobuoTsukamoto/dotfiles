@@ -98,8 +98,6 @@ if filereadable(s:plug_vim)
 
     Plug 'preservim/nerdtree', { 'on': ['NERDTree', 'NERDTreeToggle'] }
 
-    Plug 'tyru/caw.vim'
-
     "Plug 'scrooloose/vim-slumlord'
   call plug#end()
 endif
@@ -124,30 +122,3 @@ nnoremap <silent> <C-n> :NERDTreeToggle<CR>
 if has('win32') || has('win64')
   let NERDTreeIgnore = ['\c^ntuser\.dat']
 endif
-
-
-"------------------------------------------------------------------------------
-" cawの設定
-"------------------------------------------------------------------------------
-" コメントアウトを切り替えるマッピング
-" \c でカーソル行をコメントアウト
-" 再度 \c でコメントアウトを解除
-" 選択してから複数行の \c も可能
-nmap \c <Plug>(caw:I:toggle)
-vmap \c <Plug>(caw:I:toggle)
-
-" \C でコメントアウトの解除
-nmap \C <Plug>(caw:I:uncomment)
-vmap \C <Plug>(caw:I:uncomment)
-
-" カッコ、クォートの補完
-inoremap { {}<LEFT>
-inoremap [ []<LEFT>
-inoremap ( ()<LEFT>
-inoremap " ""<LEFT>
-inoremap ' ''<LEFT>
-vnoremap { "zdi^V{<C-R>z}<ESC>
-vnoremap [ "zdi^V[<C-R>z]<ESC>
-vnoremap ( "zdi^V(<C-R>z)<ESC>
-vnoremap " "zdi^V"<C-R>z^V"<ESC>
-vnoremap ' "zdi'<C-R>z'<ESC>
