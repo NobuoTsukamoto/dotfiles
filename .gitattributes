@@ -1,3 +1,4 @@
-*.md text eol=crlf
-.vimrc text eol=crlf
-.gitattributes text eol=crlf
+* text=auto
+*.md text eol=lf
+.vimrc text eol=lf
+.gitattributes text eol=lf
